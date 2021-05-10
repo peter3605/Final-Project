@@ -13,8 +13,8 @@ from wtforms.validators import (
     ValidationError,
 )
 
-
 from .models import User
+
 
 # used to search for a text
 class SearchForm(FlaskForm):
@@ -23,13 +23,22 @@ class SearchForm(FlaskForm):
     )
     submit = SubmitField("Search")
 
+
 # used to enter new text
 class TextForm(FlaskForm):
     name = StringField(
         "name", validators=[InputRequired(), Length(min=1, max=100)]
     )
     text = TextAreaField(
-        "text", validators=[InputRequired(), Length(min=5, max=500)]
+        "text", validators=[InputRequired(), Length(min=5, max=5000)]
+    )
+    submit = SubmitField("Save Text")
+
+
+# used to update text
+class UpdateTextForm(FlaskForm):
+    new_text = TextAreaField(
+        "new_text", validators=[InputRequired(), Length(min=5, max=5000)]
     )
     submit = SubmitField("Save Text")
 
@@ -39,7 +48,7 @@ class RegistrationForm(FlaskForm):
         "Username", validators=[InputRequired(), Length(min=1, max=40)]
     )
     email = StringField("Email", validators=[InputRequired(), Email()])
-    password = PasswordField("Password", validators=[InputRequired()])
+    password = PasswordField("Password", validators=[InputRequired(), Length(min=8, max=32)])
     confirm_password = PasswordField(
         "Confirm Password", validators=[InputRequired(), EqualTo("password")]
     )
@@ -54,6 +63,20 @@ class RegistrationForm(FlaskForm):
         user = User.objects(email=email.data).first()
         if user is not None:
             raise ValidationError("Email is taken")
+
+    def validate_password(self, password):
+        has_capital = False
+        has_special_char = False
+        special_chars = [' ', '!', '"', '#', '$', '%', '&', '\'', '(', ')', '*', '+', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[', '\\', ']', '^', '_', '`', '{', '|', '}', '~']
+        for ch in password.data:
+            if ch.isupper():
+                has_capital = True
+            if ch in special_chars:
+                has_special_char = True
+        if not has_capital:
+            raise ValidationError("No capital letter in password")
+        if not has_special_char:
+            raise ValidationError("No special character in password")
 
 
 class LoginForm(FlaskForm):
