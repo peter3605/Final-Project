@@ -10,6 +10,7 @@ from flask_login import (
 )
 from flask_bcrypt import Bcrypt
 from werkzeug.utils import secure_filename
+from flask_talisman import Talisman
 
 # stdlib
 from datetime import datetime
@@ -17,6 +18,14 @@ import os
 
 # local
 #from .client import MovieClient
+
+# CSP
+csp = {
+    'default-src': '*',
+    'img-src': '*',
+    'media-src': '*',
+    'script-src': '*'
+}
 
 
 db = MongoEngine()
@@ -34,6 +43,7 @@ def page_not_found(e):
 
 def create_app(test_config=None):
     app = Flask(__name__)
+    Talisman(app, content_security_policy=csp)
 
     app.config.from_pyfile("config.py", silent=False)
     if test_config is not None:
