@@ -32,14 +32,16 @@ def index():
         return render_template("index.html", form=form, form2=form2, texts=texts)
 
     # enable to display all stored texts for user on site
-    return render_template("index.html", form=form, form2=form2)
+    return render_template("main.html")
 
 
 @texts.route("/user/<username>")
 def user_detail(username):
     if current_user.is_anonymous is False and current_user.confirmed is False:
         return render_template('unconfirmed.html')
+
+    form = SearchForm()
     user = User.objects(username=username).first()
     texts = Text.objects(user=user)
 
-    return render_template("user_detail.html", username=username, texts=texts)
+    return render_template("user_detail.html", username=username, texts=texts.reverse(), form=form)

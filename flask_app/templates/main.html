@@ -1,0 +1,21 @@
+{% extends "header.html" %}
+{% block content %}
+
+<div class="row">
+    <div class="col">
+        <form action="/" class="form-group my-2 my-lg-0" method="POST">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-info">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </form>
+        <h2>Please login or register to begin saving texts</h2>
+    </div>
+</div>
+
+{% endblock %}

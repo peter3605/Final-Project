@@ -38,16 +38,13 @@
             </div>
         </form>
     </div>
-    <div class="col">
-        <h2>Please use the search bar to search for saved texts!</h2>
-    </div>
 </div>
 <div class="row">
     <div class="col">
         {% if texts %}
         <h1> Texts <small class="float-right">{{ texts.count() }} texts</small></h1>
         <ul class="media-list">
-            {% for text in texts %}
+            {% for text in texts | reverse %}
             <li class="media review-item">
                 <div class="media-body">
                     <span class="float-right">
