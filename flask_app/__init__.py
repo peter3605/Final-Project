@@ -1,5 +1,6 @@
 # 3rd-party packages
 from flask import Flask, render_template, request, redirect, url_for
+from flask_mail import Mail, Message
 from flask_mongoengine import MongoEngine
 from flask_login import (
     LoginManager,
@@ -17,7 +18,6 @@ from datetime import datetime
 import os
 
 # local
-#from .client import MovieClient
 
 # CSP
 csp = {
@@ -27,11 +27,18 @@ csp = {
     'script-src': '*'
 }
 
+MAIL_SERVER = 'smtp.googlemail.com'
+MAIL_PORT = 465
+MAIL_USE_TLS = False
+MAIL_USE_SSL = True
+MAIL_USERNAME = "cmsc388jmail@gmail.com"
+MAIL_PASSWORD = "FlaskMail"
+MAIL_DEFAULT_SENDER = 'cmsc388jmail@gmail.com'
 
 db = MongoEngine()
 login_manager = LoginManager()
 bcrypt = Bcrypt()
-#movie_client = MovieClient(os.environ.get("OMDB_API_KEY"))
+mail = Mail()
 
 from .users.routes import users
 from .texts.routes import texts
@@ -43,15 +50,16 @@ def page_not_found(e):
 
 def create_app(test_config=None):
     app = Flask(__name__)
-    Talisman(app, content_security_policy=csp)
 
     app.config.from_pyfile("config.py", silent=False)
+    Talisman(app, content_security_policy=csp)
     if test_config is not None:
         app.config.update(test_config)
 
     db.init_app(app)
     login_manager.init_app(app)
     bcrypt.init_app(app)
+    mail.init_app(app)
 
     app.register_blueprint(users)
     app.register_blueprint(texts)

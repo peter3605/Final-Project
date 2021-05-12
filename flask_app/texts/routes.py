@@ -7,8 +7,11 @@ from ..utils import current_time
 
 texts = Blueprint("texts", __name__)
 
+
 @texts.route("/", methods=["GET", "POST"])
 def index():
+    if current_user.is_anonymous is False and current_user.confirmed is False:
+        return render_template('unconfirmed.html')
     form = SearchForm()
     form2 = TextForm()
 
@@ -34,8 +37,9 @@ def index():
 
 @texts.route("/user/<username>")
 def user_detail(username):
+    if current_user.is_anonymous is False and current_user.confirmed is False:
+        return render_template('unconfirmed.html')
     user = User.objects(username=username).first()
     texts = Text.objects(user=user)
 
     return render_template("user_detail.html", username=username, texts=texts)
-
