@@ -44,6 +44,7 @@
 </div>
 <div class="row">
     <div class="col">
+        {% if texts %}
         <h1> Texts <small class="float-right">{{ texts.count() }} texts</small></h1>
         <ul class="media-list">
             {% for text in texts %}
@@ -62,6 +63,7 @@
             </li>
             {% endfor %}
         </ul>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

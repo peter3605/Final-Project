@@ -22,12 +22,14 @@ def index():
         text.save()
 
         return redirect(request.path)
-    
-    user = User.objects(username=current_user.username).first()
-    texts = Text.objects(user=user)
+
+    if current_user.is_authenticated:
+        user = User.objects(username=current_user.username).first()
+        texts = Text.objects(user=user)
+        return render_template("index.html", form=form, form2=form2, texts=texts)
 
     # enable to display all stored texts for user on site
-    return render_template("index.html", form=form, form2=form2, texts=texts)
+    return render_template("index.html", form=form, form2=form2)
 
 
 @texts.route("/user/<username>")
