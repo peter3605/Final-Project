@@ -1,5 +1,5 @@
 # Stores all configuration values
-SECRET_KEY = 'Thisisasecret!'
+SECRET_KEY = 'Secret!!'
 MONGODB_HOST = "mongodb://localhost:27017/final_project"
 SECURITY_PASSWORD_SALT = 'email_confirm'
 

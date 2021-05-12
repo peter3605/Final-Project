@@ -21,14 +21,11 @@ def register():
         hashed = bcrypt.generate_password_hash(form.password.data).decode("utf-8")
         user = User(username=form.username.data, email=form.email.data, password=hashed)
         user.save()
-        print("SAVED!!!!!!!")
 
         token = generate_confirmation_token(user.email)
         confirm_url = url_for("users.confirm_email", token=token, _external=True)
-        print("URL IS :", confirm_url)
         confirm_template = render_template("confirm.html", confirm_url=confirm_url)
         send_email(user.email, "Confirm your email", confirm_template)
-        print("SENT EMAIL!!!!!!!!!!!!!!!!")
 
         login_user(user)
         flash("Confirmation email has been sent")
