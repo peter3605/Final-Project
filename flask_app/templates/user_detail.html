@@ -8,6 +8,20 @@
         <h2>{{ username }}'s Texts</h2>
     </div>
 </div>
+<div class="mb-3">
+    {{ form.csrf_token }}
+    {{ form.search_query(class="form-control", placeholder="Search") }}
+
+    {% if form.search_query.errors %}
+    <div class="alert alert-warning" role="alert">
+       {% for error in form.search_query.errors %}
+        <span>{{ error }}</span>
+       {% endfor %}
+    </div>
+    {% endif %}
+
+    {{ form.submit(class="btn btn-outline-success") }}
+</div>
 <div class="row">
     <div class="col">
         <h1> Texts <small class="float-right">{{ texts.count() }} texts</small></h1>

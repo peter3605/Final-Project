@@ -30,7 +30,7 @@ class TextForm(FlaskForm):
         "name", validators=[InputRequired(), Length(min=1, max=100)]
     )
     text = TextAreaField(
-        "text", validators=[InputRequired(), Length(min=5, max=5000)]
+        "text", validators=[InputRequired(), Length(min=1, max=5000)]
     )
     submit = SubmitField("Save Text")
 
