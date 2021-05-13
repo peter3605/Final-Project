@@ -7,7 +7,6 @@ from ..utils import current_time
 
 texts = Blueprint("texts", __name__)
 
-
 @texts.route("/", methods=["GET", "POST"])
 def index():
     if current_user.is_anonymous is False and current_user.confirmed is False:
@@ -35,7 +34,7 @@ def index():
     return render_template("main.html")
 
 
-@texts.route("/user/<username>")
+@texts.route("/user/<username>", methods=["GET", "POST"])
 def user_detail(username):
     if current_user.is_anonymous is False and current_user.confirmed is False:
         return render_template('unconfirmed.html')
@@ -44,9 +43,18 @@ def user_detail(username):
     user = User.objects(username=username).first()
     texts = Text.objects(user=user)
 
+    if form.validate_on_submit():
+        search = form.search_query.data
+        searchedTexts = []
+        for text in texts:
+            if search in text.name:
+                searchedTexts.append(text)
+        length = len(searchedTexts)
+        return render_template("search.html", texts=searchedTexts, length=length)
+
     return render_template("user_detail.html", username=username, texts=texts, form=form)
 
-@texts.route("/text/<title>") 
+@texts.route("/text/<title>", methods=["GET", "POST"]) 
 def update_text(title):
     form = UpdateTextForm()
 
@@ -54,12 +62,12 @@ def update_text(title):
         print("redirect")
         new_text = form.new_text.data
         user = User.objects(username=current_user.username).first()
-        texts = Text.objects(user=user, name=title)
+        texts = Text.objects(user=user, name=title).first()
         texts.modify(text=new_text)
         texts.save()
         return redirect(url_for("texts.index"))
         
     print("update")
     print(form.errors)
-    return render_template("update.html", form=form)
+    return render_template("update.html", title=title, form=form)
 

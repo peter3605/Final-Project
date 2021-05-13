@@ -104,3 +104,7 @@ def unconfirmed():
         return redirect('users.account')
     flash('Please confirm your account!', 'warning')
     return render_template('unconfirmed.html')
+
+@users.route('/about')
+def about():
+    return render_template('about.html')
