@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, url_for, redirect, request, flash
 from flask_login import current_user
 
-from ..forms import SearchForm, TextForm
+from ..forms import SearchForm, TextForm, UpdateTextForm
 from ..models import User, Text
 from ..utils import current_time
 
@@ -44,4 +44,22 @@ def user_detail(username):
     user = User.objects(username=username).first()
     texts = Text.objects(user=user)
 
-    return render_template("user_detail.html", username=username, texts=texts.reverse(), form=form)
+    return render_template("user_detail.html", username=username, texts=texts, form=form)
+
+@texts.route("/text/<title>") 
+def update_text(title):
+    form = UpdateTextForm()
+
+    if form.validate_on_submit():
+        print("redirect")
+        new_text = form.new_text.data
+        user = User.objects(username=current_user.username).first()
+        texts = Text.objects(user=user, name=title)
+        texts.modify(text=new_text)
+        texts.save()
+        return redirect(url_for("texts.index"))
+        
+    print("update")
+    print(form.errors)
+    return render_template("update.html", form=form)
+

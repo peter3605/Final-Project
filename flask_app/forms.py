@@ -13,7 +13,7 @@ from wtforms.validators import (
     ValidationError,
 )
 
-from .models import User
+from .models import User, Text
 
 
 # used to search for a text
@@ -34,11 +34,18 @@ class TextForm(FlaskForm):
     )
     submit = SubmitField("Save Text")
 
+    # def validate_name(self, name):
+    #     user = User.objects(username=current_user.username).first()
+    #     texts = Text.objects(user=user, name=name).first()
+    #     print(texts.name)
+    #     if texts is not None:
+    #         raise ValidationError("Title is taken")
+
 
 # used to update text
 class UpdateTextForm(FlaskForm):
     new_text = TextAreaField(
-        "new_text", validators=[InputRequired(), Length(min=5, max=5000)]
+        "new_text", validators=[InputRequired(), Length(min=1, max=5000)]
     )
     submit = SubmitField("Save Text")
 
