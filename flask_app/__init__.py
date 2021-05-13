@@ -21,10 +21,9 @@ import os
 
 # CSP
 csp = {
-    'default-src': '*',
-    'img-src': '*',
-    'media-src': '*',
-    'script-src': '*'
+    'default-src': ['\'self\''],
+    "script-src": ["*", "'unsafe-inline'"],
+    "style-src": ["*", "'unsafe-inline'"]
 }
 
 MAIL_SERVER = 'smtp.googlemail.com'
