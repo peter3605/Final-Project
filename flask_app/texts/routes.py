@@ -46,7 +46,7 @@ def user_detail(username):
 
     return render_template("user_detail.html", username=username, texts=texts, form=form)
 
-@texts.route("/text/<title>") 
+@texts.route("/text/<title>", methods=["GET", "POST"]) 
 def update_text(title):
     form = UpdateTextForm()
 
@@ -60,6 +60,5 @@ def update_text(title):
         return redirect(url_for("texts.index"))
         
     print("update")
-    print(form.errors)
     return render_template("update.html", form=form)
 
