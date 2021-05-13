@@ -50,7 +50,8 @@ def page_not_found(e):
 
 def create_app(test_config=None):
     app = Flask(__name__)
-
+    
+    app.config["MONGODB_HOST"] = os.getenv("MONGODB_HOST")
     app.config.from_pyfile("config.py", silent=False)
     Talisman(app, content_security_policy=csp)
     if test_config is not None:
