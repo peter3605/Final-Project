@@ -1,0 +1,14 @@
+{% extends "header.html" %}
+{% block content %}
+
+<div class="row">
+    <div class="col">
+        <form action="" method="post">
+            {{ form.csrf_token }}
+            <div class="form-group">
+                {{ form.new_text(class="form-control", placeholder="Content") }}
+            </div>
+            {{ form.submit() }}
+        </form>
+</div>
+{% endblock %}

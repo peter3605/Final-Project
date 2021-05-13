@@ -31,6 +31,13 @@
             <div class="mb-3">
                 {{ form2.csrf_token }}
                 {{ form2.name(class="form-control", placeholder="Title") }}
+                {% if form2.name.errors %}
+                <div class="alert alert-warning" role="alert">
+                   {% for error in form2.name.errors %}
+                    <span>{{ error }}</span>
+                   {% endfor %}
+                </div>
+                {% endif %}
             </div>
             <div class="mb-3">
                 {{ form2.text(class="form-control", placeholder="Content") }}
@@ -51,7 +58,7 @@
                         <small>{{ texts.date }}</small>
                     </span>
                     <p>
-                        {{ text.name }}
+                        <a href="{{ url_for('texts.update_text', title=text.name) }}">{{ text.name }}</a>
                     </p>
                     <p>
                         {{ text.text }}
