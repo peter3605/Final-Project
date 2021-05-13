@@ -1,5 +1,6 @@
 {% extends "header.html" %}
 {% block content %}
+<body class = "bg-dark text-light">
 <div class="row">
     <div class="col">
         <h1>Hey, {{ current_user.username }}!</h1>
@@ -30,4 +31,5 @@
 <a href="{{ url_for('texts.user_detail', username=current_user.username) }}">
     <h4>Click here to see all of your texts!</h4>
 </a>
+</body>
 {% endblock %}>

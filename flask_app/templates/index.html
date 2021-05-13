@@ -1,8 +1,8 @@
 {% extends "header.html" %}
 {% block content %}
-
-<div class="row">
-    <div class="col">
+<body class = "bg-dark text-light">
+<div class="row bg-dark text-light">
+    <div class="col bg-dark text-light">
         <form action="/" class="form-group my-2 my-lg-0" method="POST">
             {% with messages = get_flashed_messages() %}
                 {% if messages %}
@@ -46,8 +46,8 @@
         </form>
     </div>
 </div>
-<div class="row">
-    <div class="col">
+<div class="row bg-dark text-light">
+    <div class="col bg-dark text-light">
         {% if texts %}
         <h1> Texts <small class="float-right">{{ texts.count() }} texts</small></h1>
         <ul class="media-list">
@@ -70,4 +70,5 @@
         {% endif %}
     </div>
 </div>
+</body>
 {% endblock %}
